@@ -54,8 +54,11 @@ print('Length of data set after 5 video filter: ', len(clean_data))
 #converts to array
 X = np.array(clean_data)
 
-#Example of filtered data (may be a problem in the future that values are strings and not floats/integers)
+#Example of filtered data 
 print('First two rows of cleaned data: ', X[:2])
+
+#As you can see from the results of this line of code ^^^ all the values are strings, 
+#im not sure how to convert each one into a float/integer without changing the user ID into a float as well (results in an error)
 
 
 
