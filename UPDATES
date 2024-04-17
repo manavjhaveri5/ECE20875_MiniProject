@@ -6,7 +6,7 @@ Created poin, gmm, clusters to implement kmeans
 
 Gmm calculated optimum number of clusters as 3 when provided a range from 1 to 6, took like 20 seconds to output that value so im guessing giving it a larger range will make the time much longer
 
-Dont need individual, clusters class, can just directly use scikit for kmeans but just have it in for now
+Dont need individual, clusters class, can just directly use scikit for kmeans but I just made it for now
 Need to recheck the visualization and cluster formation, and make sense of it for analysis
 
 
