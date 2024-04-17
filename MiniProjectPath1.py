@@ -21,7 +21,6 @@ df['numRWs']      = pandas.to_numeric(df['numRWs'])
 df['numFFs']      = pandas.to_numeric(df['numFFs'])
 df['s']           = pandas.to_numeric(df['s'])
 dataset_1 = df
-<<<<<<< HEAD
 #print(dataset_1[0:1].to_string())  #This line will print out the first 35 rows of your data
 
 # QUESTION 1 
@@ -36,28 +35,11 @@ dataset_1_filtered = video_completion[video_completion['userID'].isin(users_with
 
 dataset_1_filteredArray = dataset_1_filtered.to_numpy() #Final Filtered array
 
-#for i in range(len(dataset_1)):
- #   if dataset_1[i][0] in new_users:
-#        clean_data.append(dataset_1[i])
 
-#Create points for each row
-def makePointList(data):
-    """Creates a list of points from initialization data.
-    #This function is outside Point Class.
-    Args:
-      data: A p-by-d numpy array.
 
-    Returns:
-      A list of length p containing d-dimensional Point objects, each Point's
-      coordinates correspond to one row of data.
-    """
-    list = []
-    # fill in
-    for x in data:
-        a = Point(x.tolist())
-        list.append(a)
-=======
-#print(dataset_1[15620:25350].to_string()) #This line will print out the first 35 rows of your data
+
+
+
 
 print('Length of data set before 5 video filter: ', len(dataset_1))
 
@@ -95,7 +77,26 @@ print('First two rows of cleaned data: ', X[:2])
 
 #As you can see from the results of this line of code ^^^ all the values are strings, 
 #im not sure how to convert each one into a float/integer without changing the user ID into a float as well (results in an error)
->>>>>>> dc496bced15a3acc64d05d3e9143f8511f62c8e1
+
+
+
+
+
+def makePointList(data):
+    """Creates a list of points from initialization data.
+    #This function is outside Point Class.
+    Args:
+      data: A p-by-d numpy array.
+
+    Returns:
+      A list of length p containing d-dimensional Point objects, each Point's
+      coordinates correspond to one row of data.
+    """
+    list = []
+    # fill in
+    for x in data:
+        a = Point(x.tolist())
+        list.append(a)
 
 
     return list
@@ -108,7 +109,7 @@ print('First two rows of cleaned data: ', X[:2])
 
 
 #Main function
-if __name__ == "__main__":
+#if __name__ == "__main__":
 
     points = makePointList(clean_data)
     print(points[0])

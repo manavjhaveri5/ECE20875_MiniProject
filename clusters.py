@@ -1,5 +1,6 @@
-from point import makePointList, Point
+from point import makePointList, Point,dataset_1_filteredArray
 import numpy as np
+
 
 
 class Cluster:
@@ -98,3 +99,6 @@ def createClusters(data):
 
 
 if __name__ == "__main__":
+    data = dataset_1_filteredArray
+    clusters = createClusters(data)
+    print(clusters)
