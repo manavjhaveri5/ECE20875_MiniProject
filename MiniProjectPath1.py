@@ -15,6 +15,9 @@ from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 from sklearn.metrics import accuracy_score, classification_report
+from sklearn.datasets import make_blobs
+from sklearn.metrics import silhouette_samples, silhouette_score
+
 
 
 
@@ -53,12 +56,12 @@ dataset_1_filtered = video_completion[video_completion['userID'].isin(users_with
 
 dataset_1_filteredArray = dataset_1_filtered.to_numpy() #Final Filtered array
 
-print('Shape of Original Dataset: ' ,dataset_1.shape)
-print('Shape of Filtered Dataset: ' ,dataset_1_filteredArray.shape)
+#print('Shape of Original Dataset: ' ,dataset_1.shape)
+#print('Shape of Filtered Dataset: ' ,dataset_1_filteredArray.shape)
 
 Desired_Features = dataset_1_filtered[['fracSpent', 'fracComp', 'fracPaused', 'numPauses', 'avgPBR', 'numRWs', 'numFFs']]
 X = np.array(Desired_Features)
-print('Shape of Filtered Dataset with Desired Features: ', X.shape )
+#print('Shape of Filtered Dataset with Desired Features: ', X.shape )
 
 ##################################################LinearRegression############################################
 
@@ -130,7 +133,7 @@ print('Shape of Filtered Dataset with Desired Features: ', X.shape )
 def perform_logistic_regression(X_train, X_test, y_train, y_test):
     unique_classes = np.unique(y_train)
     if len(unique_classes) < 2:
-        print(f"Skipping logistic regression for Video ID {video_id} due to only one unique class.")
+        #print(f"Skipping logistic regression for Video ID {video_id} due to only one unique class.")
         return None, None
 
     logistic = LogisticRegression()
@@ -139,9 +142,9 @@ def perform_logistic_regression(X_train, X_test, y_train, y_test):
     y_pred = logistic.predict(X_test)
 
     acc = accuracy_score(y_test, y_pred)
-    print("Accuracy: ", acc)
+    #print("Accuracy: ", acc)
 
-    print("Classification report: ", classification_report(y_test, y_pred))
+    #print("Classification report: ", classification_report(y_test, y_pred))
 
     return y_pred, acc
 
@@ -154,7 +157,7 @@ for video_id in dataset_1_filtered['VidID'].unique():
     video_data = dataset_1_filtered[dataset_1_filtered['VidID'] == video_id]
 
     if len(video_data) < 2:
-        print(f"Not enough samples for Video ID {video_id}")
+       # print(f"Not enough samples for Video ID {video_id}")
         continue
 
 
@@ -176,7 +179,7 @@ for video_id in dataset_1_filtered['VidID'].unique():
     # acc = accuracy_score(y_test_video, y_pred)
     y_pred,acc = perform_logistic_regression(X_train_video, X_test_video, y_train_video, y_test_video)
 
-    print("Accuracy: ", acc)
+    #print("Accuracy: ", acc)
 
     #print("Classification report: ", classification_report(y_test_video, y_pred))
 
@@ -208,8 +211,8 @@ plt.show()
 accl = [acc for acc in acc_list if acc is not None]
 Mseavg = sum(msevals) / len(msevals)
 accavg = sum(accl)/ len(accl)
-print("Average MSE Value: ", Mseavg)
-print("Average Accuracy Value: ", accavg)
+#print("Average MSE Value: ", Mseavg)
+#print("Average Accuracy Value: ", accavg)
 1
 ############################################################################################LOGISTIC REGRESSION#############################################################################################
 
