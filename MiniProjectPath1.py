@@ -127,8 +127,27 @@ print('Shape of Filtered Dataset with Desired Features: ', X.shape )
 # print("SVM ROC AUC Score:", roc_auc_score(y_test, svm.predict_proba(X_test)[:, 1]))
 # print("MLP ROC AUC Score:", roc_auc_score(y_test, mlp.predict_proba(X_test)[:, 1]))
 
+def perform_logistic_regression(X_train, X_test, y_train, y_test):
+    unique_classes = np.unique(y_train)
+    if len(unique_classes) < 2:
+        print(f"Skipping logistic regression for Video ID {video_id} due to only one unique class.")
+        return None, None
+
+    logistic = LogisticRegression()
+    logistic.fit(X_train, y_train)
+
+    y_pred = logistic.predict(X_test)
+
+    acc = accuracy_score(y_test, y_pred)
+    print("Accuracy: ", acc)
+
+    print("Classification report: ", classification_report(y_test, y_pred))
+
+    return y_pred, acc
+
 msevals = []
 vdids = []
+acc_list = []
 
 for video_id in dataset_1_filtered['VidID'].unique():
     
@@ -155,16 +174,19 @@ for video_id in dataset_1_filtered['VidID'].unique():
     # y_pred = logistic.predict(X_test_video)
 
     # acc = accuracy_score(y_test_video, y_pred)
+    y_pred,acc = perform_logistic_regression(X_train_video, X_test_video, y_train_video, y_test_video)
 
+    print("Accuracy: ", acc)
 
-    # print("Accuracy: ", acc)
-
-    # print("Classification report: ", classification_report(y_test_video, y_pred))
+    #print("Classification report: ", classification_report(y_test_video, y_pred))
 
     mse_video = mean_squared_error(y_test_video, y_pred_video)
 
-    msevals.append(mse_video)
-    vdids.append(video_id)
+    if mse_video<1000:
+        msevals.append(mse_video)
+        vdids.append(video_id)
+        acc_list.append(acc)
+
 
     print('Mean Squared Error for Video ID', video_id, ':', mse_video)
     print()
@@ -175,6 +197,20 @@ plt.ylabel('MSE Value')
 plt.title('MSE Values for each Video')
 plt.show()
 
+# Plot accuracy vs. MSE
+plt.scatter(acc_list, msevals)
+plt.xlabel('Accuracy')
+plt.ylabel('MSE Value')
+plt.title('MSE Values vs. Accuracy')
+plt.show()
+
+
+accl = [acc for acc in acc_list if acc is not None]
+Mseavg = sum(msevals) / len(msevals)
+accavg = sum(accl)/ len(accl)
+print("Average MSE Value: ", Mseavg)
+print("Average Accuracy Value: ", accavg)
+1
 ############################################################################################LOGISTIC REGRESSION#############################################################################################
 
 # X= video_data[['fracSpent', 'fracComp', 'fracPaused', 'numPauses', 'avgPBR', 'numRWs', 'numFFs']]
@@ -191,23 +227,3 @@ plt.show()
 # print("Accuracy: ", acc)
 
 # print("Classification report: ", classification_report(y_test,y_pred))
-
-
-
-def perform_logistic_regression(X_train, X_test, y_train, y_test):
-    unique_classes = np.unique(y_train)
-    if len(unique_classes) < 2:
-        print(f"Skipping logistic regression for Video ID {video_id} due to only one unique class.")
-        return None, None
-
-    logistic = LogisticRegression()
-    logistic.fit(X_train, y_train)
-
-    y_pred = logistic.predict(X_test)
-
-    acc = accuracy_score(y_test, y_pred)
-    print("Accuracy: ", acc)
-
-    print("Classification report: ", classification_report(y_test, y_pred))
-
-    return y_pred, acc
