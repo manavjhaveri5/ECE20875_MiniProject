@@ -1,9 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas
 import numpy as np
-from sklearn.cluster import KMeans
-from sklearn.decomposition import PCA
-from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
@@ -62,6 +59,7 @@ Desired_Features = dataset_1_filtered[['fracSpent', 'fracComp', 'fracPaused', 'n
 X = np.array(Desired_Features)
 print('Shape of Filtered Dataset with Desired Features: ', X.shape )
 
+<<<<<<< Updated upstream
 ####################################################################KMEANS##############################################
 kmeans = KMeans(n_clusters=3, random_state = 0)
 kmeans.fit(X)
@@ -91,6 +89,8 @@ plt.title('Clusters of Student Video-Watching Behaviors')
 plt.xlabel(x)
 plt.ylabel(y)
 plt.show()
+=======
+>>>>>>> Stashed changes
 
 features = ['fracSpent', 'fracComp', 'fracPaused', 'numPauses', 'avgPBR', 'numRWs', 'numFFs']
 
@@ -102,27 +102,40 @@ print(cluster_characteristics)
 
 ##################################################LinearRegression############################################3
 
+<<<<<<< Updated upstream
 X = dataset_1[['fracSpent','fracComp','fracPlayed','fracPaused','numPauses','avgPBR','stdPBR','numRWs','numFFs']]
 y = dataset_1[['s']]
+=======
+# X = dataset_1_filtered[['fracSpent','fracComp','fracPlayed','fracPaused','numPauses','avgPBR','stdPBR','numRWs','numFFs']]
+# y = dataset_1_filtered[['s']]
+>>>>>>> Stashed changes
 
-X_train, X_test, y_train, y_test = train_test_split(X,y,random_state =0)
+# X_train, X_test, y_train, y_test = train_test_split(X,y,random_state =0)
 
-mean_X = np.mean(X_train, axis=0)
-std_X = np.std(X_train, axis=0)
-mean_y = np.mean(y)
-std_y = np.std(y)
-X_train_norm = (X_train - mean_X) / std_X
-X_test_norm = (X_test - mean_X) / std_X
-y_train_norm = (y_train - mean_y) / std_y
+# mean_X = np.mean(X_train, axis=0)
+# std_X = np.std(X_train, axis=0)
+# mean_y = np.mean(y)
+# std_y = np.std(y)
+# X_train_norm = (X_train - mean_X) / std_X
+# X_test_norm = (X_test - mean_X) / std_X
+# y_train_norm = (y_train - mean_y) / std_y
 
+<<<<<<< Updated upstream
 # Train Ridge regression model
 alpha = 0.5  # Regularization strength
 ridge_model = Ridge(alpha=alpha)
 ridge_model.fit(X_train_norm, y_train)
+=======
+# # Train Ridge regression model
+# alpha = 0.50  # Regularization strength
+# ridge_model = Ridge(alpha=alpha)
+# ridge_model.fit(X_train_norm, y_train)
+>>>>>>> Stashed changes
 
-# Predict on test set
-y_pred_test = ridge_model.predict(X_test_norm)
+# # Predict on test set
+# y_pred_test = ridge_model.predict(X_test_norm)
 
+<<<<<<< Updated upstream
 # Evaluate model
 mse = mean_squared_error(y_test, y_pred_test)
 r2 = r2_score(y_test, y_pred_test)
@@ -165,3 +178,51 @@ print(classification_report(y_test, mlp_pred))
 print("KNN ROC AUC Score:", roc_auc_score(y_test, knn.predict_proba(X_test)[:, 1]))
 print("SVM ROC AUC Score:", roc_auc_score(y_test, svm.predict_proba(X_test)[:, 1]))
 print("MLP ROC AUC Score:", roc_auc_score(y_test, mlp.predict_proba(X_test)[:, 1]))
+=======
+# # Evaluate model
+# mse = mean_squared_error(y_test, y_pred_test)
+# r2 = r2_score(y_test, y_pred_test)
+# print('Mean squared error with normalization:', mse)
+# print('Coefficient of Determination:', r2)
+
+msevals =[]
+vdids = []
+
+for video_id in dataset_1_filtered['VidID'].unique():
+    
+
+    video_data = dataset_1_filtered[dataset_1_filtered['VidID'] == video_id]
+
+    if len(video_data) < 2:
+        print(f"Not enough samples for Video ID {video_id}")
+        continue
+    
+
+    X_video = video_data[['fracSpent', 'fracComp', 'fracPaused', 'numPauses', 'avgPBR', 'numRWs', 'numFFs']]
+    y_video = video_data['s']
+    
+
+    X_train_video, X_test_video, y_train_video, y_test_video = train_test_split(X_video, y_video, test_size=0.2, random_state=0)
+    
+
+    ridge_model = Ridge(alpha=1.0)
+    ridge_model.fit(X_train_video, y_train_video)
+    
+
+    y_pred_video = ridge_model.predict(X_test_video)
+    
+
+    mse_video = mean_squared_error(y_test_video, y_pred_video)
+
+    msevals.append(mse_video)
+    vdids.append(video_id)
+
+    print('Mean Squared Error for Video ID', video_id, ':', mse_video)
+    print()
+
+plt.scatter(vdids, msevals)
+plt.xlabel('Video IDs')
+plt.ylabel('MSE Value')
+plt.title('MSE Values for each Video')
+plt.show()
+>>>>>>> Stashed changes
