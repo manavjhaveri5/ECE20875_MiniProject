@@ -5,6 +5,9 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_blobs
 from sklearn.metrics import silhouette_samples , silhouette_score
+import pandas as pd
+import seaborn as sns
+
 
 
 
@@ -45,5 +48,7 @@ cluster_labels = clusterer.fit_predict(features_scaled)
 silhouette_avg = silhouette_score(features_scaled, cluster_labels)
 
 print(f"The average silhouette score for n_clusters = 3 is ",silhouette_avg)
+
+
 
 
